@@ -20,7 +20,10 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    void createViewAndScene();
     Ui::MainWindow *ui;
+    QGraphicsView *view;
+    QGraphicsScene *scene;
 };
 
 #endif // MAINWINDOW_H
