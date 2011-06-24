@@ -2,6 +2,8 @@
 #define MELODYNOTE_H
 
 #include "melodysymbol.h"
+#include "itemtypes.h"
+
 class QGraphicsScene;
 
 class MelodyNote : public MelodySymbol
@@ -9,7 +11,7 @@ class MelodyNote : public MelodySymbol
 public:
     MelodyNote( const QRectF &rect_, QGraphicsScene *scene );
 
-    enum { Type = QGraphicsItem::UserType + 1 };
+    enum { Type = MelodyNoteType };
     int type() const { return Type; }
     QRectF boundingRect() const;
     QPainterPath shape() const;

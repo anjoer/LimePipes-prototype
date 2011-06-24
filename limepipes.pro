@@ -19,5 +19,6 @@ HEADERS += mainwindow.h \
     controlsymbol.h \
     melodysymbol.h \
     melodynote.h \
-    embellishment.h
+    embellishment.h \
+    itemtypes.h
 FORMS += mainwindow.ui
