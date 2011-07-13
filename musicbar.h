@@ -13,10 +13,11 @@ public:
     QRectF boundingRect() const;
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
 
+
 private:
     QRectF m_rect;
     double m_penwidth;
-    double m_lineheight;
+    qreal m_lineHeight;
 };
 
 #endif // MUSICBAR_H

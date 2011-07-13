@@ -56,6 +56,14 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawLine( 3, 0, 3, -40.0 );
 }
 
+void MelodyNote::setLength(Length length)
+{
+    if( length != Symbol::NoLength )
+    {
+        m_length = length;
+    }
+}
+
 QRectF MelodyNote::boundingRect() const
 {
     const double hpw = 2.5;
