@@ -1,13 +1,20 @@
 #include "musicbar.h"
 #include <QtGui>
 
+#include "pitchlist.h"
 
-MusicBar::MusicBar( QGraphicsScene *scene )
+
+MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPen *pen)
     : QGraphicsObject()
 {
-    m_penwidth = 1;
-    m_lineHeight = 15;
-    m_rect = QRectF( 0, 0, 4.5*4*m_lineHeight, 4*m_lineHeight ); //Erste Zahl bei Drittem Wert gibt Verhältnis von Breite zur Höhe an
+    m_pitchList = pitchList;
+    if( pen == 0)
+    {
+        m_pen = new QPen();
+    } else {
+        m_pen = pen;
+    }
+    m_rect = QRectF( 0, 0, 4.5*4*m_pitchList->lineHeight(), 4*m_pitchList->lineHeight() ); //Erste Zahl bei Drittem Wert gibt Verhältnis von Breite zur Höhe an
 
     scene->addItem(this);
 }
@@ -31,22 +38,26 @@ void MusicBar::paint( QPainter *painter, const QStyleOptionGraphicsItem *option,
 #endif
 
     //Bar
-    pen = QPen(Qt::black, m_penwidth );
+    pen = QPen(Qt::black, m_pen->widthF() );
     painter->setBrush( Qt::transparent );
     painter->setPen( pen );
     painter->setRenderHint( QPainter::Antialiasing, false );
     painter->drawRect( m_rect );
     for( int i = 1; i<=3; i++ ) {
-        painter->drawLine(0, i * m_lineHeight, m_rect.width(), i * m_lineHeight );
+        painter->drawLine(0, i * m_pitchList->lineHeight(), m_rect.width(), i * m_pitchList->lineHeight() );
     }
 }
 
 QRectF MusicBar::boundingRect() const
 {
-    const double hpw = m_penwidth/2;
+    const double hpw = m_pen->widthF()/2;
     return m_rect.adjusted( -hpw, -hpw, hpw, hpw );
 }
 
+void MusicBar::setPen(const QPen *pen)
+{
+    m_pen = pen;
+}
 
 
 

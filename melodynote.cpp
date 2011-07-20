@@ -1,9 +1,12 @@
 #include "melodynote.h"
+#include "melodysymbol.h"
+#include "symbol.h"
+#include "pitch.h"
 #include <QGraphicsScene>
 #include <QtGui>
 
 MelodyNote::MelodyNote( const QRectF &rect_, QGraphicsScene *scene )
-    : MelodySymbol(),
+    : MelodySymbol(scene),
     m_shear(0.0), m_angle(0.0)
 {
     setFlags( QGraphicsItem::ItemIsFocusable |
@@ -17,6 +20,25 @@ MelodyNote::MelodyNote( const QRectF &rect_, QGraphicsScene *scene )
     setSelected(true);
     setFocus();
 }
+
+MelodyNote::MelodyNote(QGraphicsScene *scene, const Pitch *pitch)
+    :MelodySymbol(scene), m_shear(0.0), m_angle(0.0)
+{
+    m_pitch = pitch;
+    setFlags( QGraphicsItem::ItemIsFocusable |
+              QGraphicsItem::ItemIsMovable |
+              QGraphicsItem::ItemIsSelectable );
+    m_rect = QRectF(20, 30, 40, 15);
+    m_rect.moveCenter( QPoint(0.0, 0.0) );
+    setVisible(true);
+    setPos(50, m_pitch->getY());
+    scene->clearSelection();
+    scene->addItem(this);
+    setSelected(true);
+    setFocus();
+}
+
+
 
 void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

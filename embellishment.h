@@ -6,7 +6,7 @@
 class Embellishment : public MelodySymbol
 {
 public:
-    Embellishment();
+    Embellishment( QGraphicsScene *scene );
 };
 
 #endif // EMBELLISHMENT_H

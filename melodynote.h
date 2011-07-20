@@ -9,7 +9,8 @@ class QGraphicsScene;
 class MelodyNote : public MelodySymbol
 {
 public:
-    MelodyNote( const QRectF &rect_, QGraphicsScene *scene );
+    MelodyNote( const QRectF &rect_, QGraphicsScene *scene ); //Nur für Testzwecke
+    MelodyNote(QGraphicsScene *scene, const Pitch *pitch);
 
     enum { Type = MelodyNoteType };
     int type() const { return Type; }
@@ -18,6 +19,11 @@ public:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setLength(Length length);
 
+    //Redefined from Symbol
+    bool hasPitch() const
+    {
+        return true;
+    }
 
 private:
     QRectF m_rect;
@@ -25,18 +31,4 @@ private:
     double m_angle;
 };
 
-#include <QGraphicsItem>
-
-
-
-class EllipseItem : public QObject, public QGraphicsItem
-{
-public:
-
-    EllipseItem( const QRectF &rect_, QGraphicsScene *scene );
-
-
-
-
-};
 #endif // MELODYNOTE_H

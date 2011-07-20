@@ -3,8 +3,7 @@
 
 //Includes zum Testen
 
-#include "musicbar.h"
-#include "melodynote.h"
+#include "ghbtune.h"
 
 //Ende Includes zum Testen
 
@@ -18,8 +17,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     createViewAndScene();
 
-    MusicBar *musicbar = new MusicBar( scene );
-    MelodyNote *note = new MelodyNote( QRectF(20, 30, 40, 15), scene );
+    GHBTune *tune = new GHBTune( scene );
+    //MusicBar *musicbar = new MusicBar( scene );
+    //MelodyNote *note = new MelodyNote( QRectF(20, 30, 40, 15), scene );
 }
 
 MainWindow::~MainWindow()

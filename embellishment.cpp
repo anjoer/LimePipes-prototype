@@ -1,5 +1,6 @@
 #include "embellishment.h"
 
-Embellishment::Embellishment()
+Embellishment::Embellishment( QGraphicsScene *scene )
+    :MelodySymbol(scene)
 {
 }

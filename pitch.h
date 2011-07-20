@@ -10,13 +10,18 @@ class QString;
 class Pitch
 {
 public:
-    Pitch( qreal lineHeight );
+    Pitch( const char *name, qreal ypos, QString *desc = 0 );
+    ~Pitch();
+    qreal getY() const;
+    const QString *getName() const;
+    const QString *getDescription() const;
+
 
 private:
-    qreal m_lineHeight;
+    const QString *m_name;
+    const qreal m_yposition;
+    const QString *m_description;
 
-protected:
-    QHash<QString, qreal> *m_pitches;
 };
 
 #endif // PITCH_H

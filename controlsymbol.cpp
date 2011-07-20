@@ -2,6 +2,8 @@
 
 
 
-ControlSymbol::ControlSymbol()
+ControlSymbol::ControlSymbol( QGraphicsScene *scene )
+    :Symbol(scene)
 {
+
 }

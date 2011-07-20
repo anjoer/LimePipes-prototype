@@ -1,8 +1,24 @@
 #include "symbol.h"
 #include "pitch.h"
 
-Symbol::Symbol()
+Symbol::Symbol( QGraphicsScene *scene )
+    :QGraphicsObject(), m_pitch(0)
 {
+    setVisible(false);
+    m_scene = scene;
+}
+
+bool Symbol::hasPitch() const
+{
+    return false;
+}
+
+void Symbol::setPitch(const Pitch *pitch)
+{
+    if( this->hasPitch() )
+    {
+        m_pitch = pitch;
+    }
 }
 
 void Symbol::setNextSymbol( const Symbol *symbol )

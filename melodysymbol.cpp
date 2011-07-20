@@ -1,5 +1,6 @@
 #include "melodysymbol.h"
 
-MelodySymbol::MelodySymbol()
+MelodySymbol::MelodySymbol( QGraphicsScene *scene )
+    :Symbol(scene)
 {
 }

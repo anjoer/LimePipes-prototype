@@ -13,7 +13,9 @@ SOURCES += main.cpp \
     melodynote.cpp \
     embellishment.cpp \
     pitch.cpp \
-    ghbpitch.cpp
+    ghbtune.cpp \
+    pitchlist.cpp \
+    ghbpitchlist.cpp
 HEADERS += mainwindow.h \
     pipetune.h \
     musicbar.h \
@@ -24,6 +26,8 @@ HEADERS += mainwindow.h \
     embellishment.h \
     itemtypes.h \
     pitch.h \
-    ghbpitch.h
+    ghbtune.h \
+    pitchlist.h \
+    ghbpitchlist.h
 FORMS += mainwindow.ui
 OTHER_FILES += README.txt

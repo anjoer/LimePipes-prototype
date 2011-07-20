@@ -4,20 +4,24 @@
 #include <QGraphicsObject>
 #include "itemtypes.h"
 
+class PitchList;
+
 class MusicBar : public QGraphicsObject
 {
 public:
-    MusicBar( QGraphicsScene *scene );
+    MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPen *pen = 0);
     enum { Type = MusicBarType };
     int type() const { return Type; }
     QRectF boundingRect() const;
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
 
+    void setPen( const QPen *pen );
+
 
 private:
-    QRectF m_rect;
-    double m_penwidth;
-    qreal m_lineHeight;
+    const PitchList *m_pitchList;
+    QRectF m_rect; //Bounding rectangle
+    const QPen *m_pen;
 };
 
 #endif // MUSICBAR_H
