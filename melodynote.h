@@ -9,15 +9,17 @@ class QGraphicsScene;
 class MelodyNote : public MelodySymbol
 {
 public:
-    MelodyNote( const QRectF &rect_, QGraphicsScene *scene ); //Nur für Testzwecke
-    MelodyNote(QGraphicsScene *scene, const Pitch *pitch);
+    MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch);
 
     enum { Type = MelodyNoteType };
     int type() const { return Type; }
     QRectF boundingRect() const;
     QPainterPath shape() const;
+    void setPitch(const Pitch *pitch); //Redefine from Symbol
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setLength(Length length);
+    QSizePolicy sizePolicy() const;
+    QRectF contentsRect() const;
 
     //Redefined from Symbol
     bool hasPitch() const
@@ -26,9 +28,18 @@ public:
     }
 
 private:
-    QRectF m_rect;
-    double m_shear;
-    double m_angle;
+    QRectF m_rect;  //Bounding Rect
+    QPointF m_leftConnection;
+    QPointF m_rightConnection;
+    qreal m_dragStartY;
+    bool lineThroughHead() const;
+    void setRectForPitch();
+    void setSizeHintsForPitch();
+
+protected:
+    void mousePressEvent( QGraphicsSceneMouseEvent *event );
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent *event );
+    void mouseMoveEvent( QGraphicsSceneMouseEvent *event );
 };
 
 #endif // MELODYNOTE_H

@@ -1,12 +1,16 @@
 #ifndef MUSICBAR_H
 #define MUSICBAR_H
 
-#include <QGraphicsObject>
+#include <QGraphicsWidget>
+#include <QList>
+
 #include "itemtypes.h"
 
 class PitchList;
+class Symbol;
+class QGraphicsLinearLayout;
 
-class MusicBar : public QGraphicsObject
+class MusicBar : public QGraphicsWidget
 {
 public:
     MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPen *pen = 0);
@@ -16,12 +20,23 @@ public:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget );
 
     void setPen( const QPen *pen );
-
+    void append( Symbol *symbol );
+    void append( QList<Symbol *>symbols);
+    void prepend( Symbol *symbol );
+    void prepend( QList<Symbol *>symbols );
+    QSizePolicy sizePolicy() const;
+    QRectF contentsRect() const;
 
 private:
     const PitchList *m_pitchList;
+    QList<Symbol *>m_symbols;
     QRectF m_rect; //Bounding rectangle
     const QPen *m_pen;
+    QGraphicsLinearLayout *m_layout;
+
+
+    void syncGeometryAndRect();
+
 };
 
 #endif // MUSICBAR_H

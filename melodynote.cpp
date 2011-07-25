@@ -4,78 +4,112 @@
 #include "pitch.h"
 #include <QGraphicsScene>
 #include <QtGui>
+#include <QDebug>
 
-MelodyNote::MelodyNote( const QRectF &rect_, QGraphicsScene *scene )
-    : MelodySymbol(scene),
-    m_shear(0.0), m_angle(0.0)
+MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch)
+    :MelodySymbol(scene, pen)
 {
+    m_rect = QRectF(0.0, 0.0, 1.25*pitch->getLineHeight(), pitch->getLineHeight());
+    m_pitch = pitch;
+    setRectForPitch();
+    setSizeHintsForPitch();
+
+    qreal t_lineHeight = m_pitch->getLineHeight();
+    qreal t_ypos = m_pitch->getY();
+
     setFlags( QGraphicsItem::ItemIsFocusable |
-              QGraphicsItem::ItemIsMovable |
               QGraphicsItem::ItemIsSelectable );
-    m_rect = rect_;
-    m_rect.moveCenter( QPoint(0.0, 0.0) );
-    setPos( rect_.center() );
-    scene->clearSelection();
+
+
+    //Werte der Connections
+    m_leftConnection = mapToScene( QPointF(0.0 - 0.04*m_pitch->getLineHeight(), m_pitch->getY() + 0.25 * m_pitch->getLineHeight()) );
+    m_rightConnection = mapToScene( QPointF(m_rect.width() + 0.05*t_lineHeight, t_ypos - 0.25 * t_lineHeight) );
+
     scene->addItem(this);
-    setSelected(true);
-    setFocus();
 }
 
-MelodyNote::MelodyNote(QGraphicsScene *scene, const Pitch *pitch)
-    :MelodySymbol(scene), m_shear(0.0), m_angle(0.0)
+void MelodyNote::setPitch(const Pitch *pitch)
 {
     m_pitch = pitch;
-    setFlags( QGraphicsItem::ItemIsFocusable |
-              QGraphicsItem::ItemIsMovable |
-              QGraphicsItem::ItemIsSelectable );
-    m_rect = QRectF(20, 30, 40, 15);
-    m_rect.moveCenter( QPoint(0.0, 0.0) );
-    setVisible(true);
-    setPos(50, m_pitch->getY());
-    scene->clearSelection();
-    scene->addItem(this);
-    setSelected(true);
-    setFocus();
+    setRectForPitch();
 }
 
+void MelodyNote::setRectForPitch()
+{
+    qreal t_lineHeight = m_pitch->getLineHeight();
+    qreal t_ypos = m_pitch->getY();
+    //Set Pitch and update bounding Rect
+    //m_rect = QRectF(m_rect.left(), t_ypos - t_lineHeight/2 , 1.25*t_lineHeight, t_lineHeight ); //Breite des Notenkopfes = offset mal Zeilenhöhe
+    m_rect = QRectF(m_rect.left(),
+                    mapFromParent(0.0,0.0).y()+ t_ypos - t_lineHeight/2,
+                    1.25*t_lineHeight,
+                    t_lineHeight );
+}
 
+void MelodyNote::setSizeHintsForPitch()
+{
+    qreal width = m_rect.width();
+    qreal height = m_rect.height();
+    if(lineThroughHead())
+    {
+        width += 0.4*m_pitch->getLineHeight();
+    }
+    setMinimumSize(width*1.15, height); // jeweils 0.1 mehr, da noten etwas größer sind durch die scherung
+    setPreferredSize(width*1.15, height);
+    setMaximumSize(width*1.15, height);
+}
 
 void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QPen pen;
+    qDebug() << "MelodyNote.pitch: " << *(m_pitch->getName());
+    setRectForPitch();
 #ifdef QT_DEBUG
-    painter->setBrush( Qt::transparent );
-    painter->setPen( QPen(Qt::gray, 1.0) );
-
-    /* Stört nur
+    /*
     //bounding Rect
+    painter->setPen( QPen(Qt::gray, 1.0) );
+    painter->setBrush( Qt::transparent );
     painter->drawRect( boundingRect() );
-
-    //Shape
-    painter->setPen( QPen(Qt::green, 1.0) );
-    painter->drawPath( shape() );
     */
+    //Shape
+    //painter->setPen( QPen(Qt::green, 1.0) );
+    //painter->drawPath( shape() );
 #endif
+    /*
+    //koordinatensystem
+    painter->setPen(QPen(Qt::green, 1.0));
+    painter->drawLine(-20, 0, 20, 0);
+    painter->drawLine(0, -20, 0, 20);
+    painter->setPen(Qt::NoPen);
+    //ende koordinatensystem
+    */
+    //Notenkopf
+    painter->setPen( Qt::NoPen );
+    painter->setBrush( Qt::SolidPattern );
 
-    //Note
-    QRectF head = QRectF(0, 0, 30.0, 14.0);
-    head.moveCenter( QPointF(0.0, 0.0) );
-    if( isSelected() ){
-        pen = QPen(Qt::red, 2.5*1.3);
-        painter->setBrush( Qt::red );
-    } else {
-        pen = QPen(Qt::black, 2.5*1.3);
-        painter->setBrush( Qt::black );
+    
+    QRectF head = QRectF(0.0, 0.0, m_rect.width(), m_pitch->getLineHeight());
+    painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-wert + offset, damit Notenkopf nicht links über y-Achse steht
+                       m_rect.center().y() + 0.5); //y-Wert + offset, damit Notenkopf genau zwischen Linien steht
+
+    painter->save();
+    painter->rotate( -4.0 );
+    painter->shear( -0.6, -0.0 );
+
+    qreal xShiftForLine = 0.0;
+    if( lineThroughHead() ){
+        xShiftForLine = 0.2*m_rect.width();
     }
-    painter->setPen( pen );
-    painter->rotate( -25.0 );
-    painter->shear( 1.0, 0.0 );
+    head.moveCenter( QPoint( xShiftForLine, 0.0 ));
+
     painter->drawEllipse( head );
-    painter->shear( -1.0, 0.0 );
-    painter->translate( 30.0 /2 , 0 );
-    painter->rotate( 25 );
-    painter->setPen( pen );
-    painter->drawLine( 3, 0, 3, -40.0 );
+
+    painter->restore();
+    if( lineThroughHead() ) //High A => draw line through notehead
+    {
+        painter->setRenderHint( QPainter::Antialiasing, false );
+        painter->setPen(QPen(Qt::black, 2.0));
+        painter->drawLine(-m_rect.width()/2, 0.0, m_rect.width()/2+0.4*m_rect.width(), 0.0 );
+    }
 }
 
 void MelodyNote::setLength(Length length)
@@ -88,16 +122,101 @@ void MelodyNote::setLength(Length length)
 
 QRectF MelodyNote::boundingRect() const
 {
-    const double hpw = 2.5;
-    return m_rect.adjusted( -hpw, -50, hpw, hpw );
+    qreal hpw = m_pen->width() / 2;
+    qreal left = -hpw *2;
+    qreal right = 0.0;
+    if( lineThroughHead() ) {
+        left -= 0.2*m_rect.width();
+        right += 0.4*m_rect.width();
+    }
+    return m_rect.adjusted( -hpw, -hpw, right, hpw ); //Note wird ohne Pen gezeichnet,
+                                                       //aber da die Linie der Notenzeile nach oben und unten platz hat, bounding rect vergrößern
 }
 
 QPainterPath MelodyNote::shape() const
 {
     QPainterPath path;
+    path.addRect(m_rect);
+    return path;
+    /*
+    QPainterPath path;
     QRectF head = QRectF(0, 0, 30.0, 11.0);
     head.moveCenter( QPointF(0.0, 0.0) );
-    path.addRoundedRect( -20, -8.0, 40.0, 16.0, 10.0, 10.0 );
-    path.addRect( 15.0, -50.0, 3.5, 50 );
+    path.addRoundedRect( 0, -16.0, 40.0, 16.0, 10.0, 10.0 );
+    path.addRect( 34.0, -50.0, 3.5, 40 );
     return path;
+    */
+}
+
+void MelodyNote::mousePressEvent( QGraphicsSceneMouseEvent *event )
+{
+    m_dragStartY = event->pos().y();
+    //qDebug() << "Start dragging Note. Pitch: " << *(m_pitch->getName());
+    QGraphicsItem::mousePressEvent( event );
+}
+
+void MelodyNote::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
+{
+    QGraphicsItem::mouseReleaseEvent( event );
+}
+
+void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
+{
+    qreal yPos = event->pos().y();
+    qreal dist = m_dragStartY - yPos;
+    qreal nextPitchDist = m_pitch->getLineHeight() / 2;
+
+    if( dist > 0 ) //up
+    {
+        if( dist > (nextPitchDist/2) ){
+            if(m_pitch->nextHigher() != 0){
+                m_dragStartY -= nextPitchDist;
+                QRectF oldBounding = boundingRect();  //Update für Parent
+                setPitch( m_pitch->nextHigher() );
+                if(m_pitch->nextHigher() == 0){
+                    //High A => update, da strich durch note
+                        setSizeHintsForPitch();
+                        updateGeometry();
+                        m_scene->update(mapToScene(oldBounding).boundingRect().adjusted(0.0, -50, 200, 200));
+                }
+                //qDebug() << "Switched pitch to: " << *(m_pitch->getName());
+                update();
+                    m_scene->update(mapToScene(oldBounding).boundingRect());
+            }
+        }
+    } else if( dist < 0 ) { //down
+        if( -dist > (nextPitchDist/2) ){
+            if(m_pitch->nextLower() != 0){
+                m_dragStartY += nextPitchDist;
+                QRectF oldBounding = boundingRect();  //Update für Parent
+                setPitch( m_pitch->nextLower() );
+                if(m_pitch->nextHigher()->nextHigher() == 0){
+                    //High A => update, da kein  strich mehr durch note
+                    //qDebug() << "runter";
+                        setSizeHintsForPitch();
+                        updateGeometry();
+                        m_scene->update(mapToScene(oldBounding).boundingRect().adjusted(0.0, -50, 200, 100));
+                }
+                //qDebug() << "Switched pitch to: " << *(m_pitch->getName());
+                update();
+                    m_scene->update(mapToScene(oldBounding).boundingRect());
+            }
+        }
+    }
+    QGraphicsItem::mouseMoveEvent( event );
+}
+
+bool MelodyNote::lineThroughHead() const
+{
+    return m_pitch->getY() == -m_pitch->getLineHeight();
+}
+
+QSizePolicy MelodyNote::sizePolicy() const
+{
+    return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+}
+
+QRectF MelodyNote::contentsRect() const
+{
+    return m_rect;
 }

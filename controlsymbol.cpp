@@ -2,8 +2,8 @@
 
 
 
-ControlSymbol::ControlSymbol( QGraphicsScene *scene )
-    :Symbol(scene)
+ControlSymbol::ControlSymbol( QGraphicsScene *scene, const QPen *pen )
+    :Symbol(scene, pen)
 {
 
 }
