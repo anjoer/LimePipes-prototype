@@ -2,8 +2,12 @@
 #include "ui_mainwindow.h"
 
 //Includes zum Testen
+#include <QDebug>
 
 #include "ghbtune.h"
+#include "musicbar.h"
+#include "ghbpitchlist.h"
+#include "melodynote.h"
 
 //Ende Includes zum Testen
 
@@ -18,7 +22,17 @@ MainWindow::MainWindow(QWidget *parent) :
     createViewAndScene();
 
     GHBTune *tune = new GHBTune( scene );
-    //MusicBar *musicbar = new MusicBar( scene );
+
+    GHBPitchList *pitchList = new GHBPitchList( 20.0 );
+
+    //QPen um Elemente zu zeichnen
+    QPen *m_pen = new QPen();
+    m_pen->setWidthF(1.0);
+    m_pen->setColor(Qt::black);
+
+    //MusicBar *musicbar = new MusicBar( scene, pitchList, m_pen);
+    //qDebug() << "musicbar-sizeHint-minimum: " << musicbar->sizeHint(Qt::MinimumSize);
+   // musicbar->append( new MelodyNote(scene, m_pen, pitchList->getPitch(GHBPitchList::LowG)));
     //MelodyNote *note = new MelodyNote( QRectF(20, 30, 40, 15), scene );
 }
 

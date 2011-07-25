@@ -1,14 +1,14 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
-#include <QGraphicsObject>
+#include <QGraphicsWidget>
 
 class Pitch;
 
-class Symbol : public QGraphicsObject
+class Symbol : public QGraphicsWidget
 {
 public:
-    Symbol( QGraphicsScene *scene );
+    Symbol( QGraphicsScene *scene, const QPen *pen );
 
     enum Length{ NoLength, Whole, Half, Quarter, Eighth, Sixteenth, Thirtysecond };
 
@@ -17,6 +17,7 @@ public:
     virtual void setLength( Length length );
     virtual bool hasPitch() const;
     virtual void setPitch( const Pitch* pitch );
+    const Pitch *pitch() const;
 
 private:
     const Symbol *m_nextSymbol;
@@ -27,6 +28,9 @@ protected:
     Length m_length;
     QGraphicsScene *m_scene;
     const Pitch *m_pitch;
+    const QPen *m_pen;
+
+
 };
 
 #endif // SYMBOL_H

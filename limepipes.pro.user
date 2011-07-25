@@ -76,7 +76,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-yl551RkOyE,guid=7c3cd24b06e2d367e4b77cab4e2670ca</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-TaFqvSkZn1,guid=ec67ca7fe4dda8fc79ad242f4e2c762e</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -84,8 +84,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=de	nodeadkeys</value>
     <value type="QString">GDM_LANG=de_DE.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-Mmnbrb</value>
-    <value type="QString">GNOME_KEYRING_PID=1762</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-lJvrIF</value>
+    <value type="QString">GNOME_KEYRING_PID=1729</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/bobo</value>
     <value type="QString">LANG=de_DE.utf8</value>
@@ -96,17 +96,17 @@
     <value type="QString">PATH=/usr/bin:/home/bobo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/bobo</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1780,unix/bobo-desktop:/tmp/.ICE-unix/1780</value>
+    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1747,unix/bobo-desktop:/tmp/.ICE-unix/1747</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1814</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-Mmnbrb/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1781</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-lJvrIF/ssh</value>
     <value type="QString">USER=bobo</value>
     <value type="QString">USERNAME=bobo</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-KxvpvH/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-YceddY/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1311142090.71370-573007863</value>
+    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1311536686.498039-1136626330</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/bobo/Projekte/LimePipes/src/limepipes.pro</value>
@@ -125,7 +125,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-yl551RkOyE,guid=7c3cd24b06e2d367e4b77cab4e2670ca</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-TaFqvSkZn1,guid=ec67ca7fe4dda8fc79ad242f4e2c762e</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -133,8 +133,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=de	nodeadkeys</value>
     <value type="QString">GDM_LANG=de_DE.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-Mmnbrb</value>
-    <value type="QString">GNOME_KEYRING_PID=1762</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-lJvrIF</value>
+    <value type="QString">GNOME_KEYRING_PID=1729</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/bobo</value>
     <value type="QString">LANG=de_DE.utf8</value>
@@ -145,17 +145,17 @@
     <value type="QString">PATH=/usr/bin:/home/bobo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/bobo</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1780,unix/bobo-desktop:/tmp/.ICE-unix/1780</value>
+    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1747,unix/bobo-desktop:/tmp/.ICE-unix/1747</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1814</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-Mmnbrb/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1781</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-lJvrIF/ssh</value>
     <value type="QString">USER=bobo</value>
     <value type="QString">USERNAME=bobo</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-KxvpvH/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-YceddY/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1311142090.71370-573007863</value>
+    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1311536686.498039-1136626330</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
@@ -171,7 +171,7 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-482j0GKNeG,guid=dcf5a159771637da94bb128b4e02fd40</value>
+    <value type="QString">DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-XCqP14eunX,guid=28edc65086056fd51ab093e04e2af952</value>
     <value type="QString">DEFAULTS_PATH=/usr/share/gconf/gnome.default.path</value>
     <value type="QString">DESKTOP_SESSION=gnome</value>
     <value type="QString">DISPLAY=:0.0</value>
@@ -179,8 +179,8 @@
     <value type="QString">GDM_KEYBOARD_LAYOUT=de	nodeadkeys</value>
     <value type="QString">GDM_LANG=de_DE.utf8</value>
     <value type="QString">GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
-    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-J0sNeC</value>
-    <value type="QString">GNOME_KEYRING_PID=1741</value>
+    <value type="QString">GNOME_KEYRING_CONTROL=/tmp/keyring-fnsz9F</value>
+    <value type="QString">GNOME_KEYRING_PID=1739</value>
     <value type="QString">GTK_MODULES=canberra-gtk-module</value>
     <value type="QString">HOME=/home/bobo</value>
     <value type="QString">LANG=de_DE.utf8</value>
@@ -191,17 +191,17 @@
     <value type="QString">PATH=/usr/bin:/home/bobo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
     <value type="QString">PWD=/home/bobo</value>
     <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1759,unix/bobo-desktop:/tmp/.ICE-unix/1759</value>
+    <value type="QString">SESSION_MANAGER=local/bobo-desktop:@/tmp/.ICE-unix/1757,unix/bobo-desktop:/tmp/.ICE-unix/1757</value>
     <value type="QString">SHELL=/bin/bash</value>
     <value type="QString">SPEECHD_PORT=7560</value>
-    <value type="QString">SSH_AGENT_PID=1793</value>
-    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-J0sNeC/ssh</value>
+    <value type="QString">SSH_AGENT_PID=1791</value>
+    <value type="QString">SSH_AUTH_SOCK=/tmp/keyring-fnsz9F/ssh</value>
     <value type="QString">USER=bobo</value>
     <value type="QString">USERNAME=bobo</value>
-    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-RPg28H/database</value>
+    <value type="QString">XAUTHORITY=/var/run/gdm/auth-for-bobo-hdbBxx/database</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg/xdg-gnome:/etc/xdg</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share/:/usr/share/</value>
-    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1308818752.407353-1554098785</value>
+    <value type="QString">XDG_SESSION_COOKIE=8acb9d333a3cc7eefb6fa2094cc75e29-1311439186.474404-1558982250</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">

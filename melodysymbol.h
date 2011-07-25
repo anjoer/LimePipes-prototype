@@ -7,7 +7,7 @@
 class MelodySymbol : public Symbol
 {
 public:
-    MelodySymbol( QGraphicsScene *scene );
+    MelodySymbol( QGraphicsScene *scene, const QPen *pen );
 };
 
 #endif // MELODYSYMBOL_H

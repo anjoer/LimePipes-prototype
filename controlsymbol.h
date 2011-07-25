@@ -6,7 +6,7 @@
 class ControlSymbol : public Symbol
 {
 public:
-    ControlSymbol( QGraphicsScene *scene );
+    ControlSymbol( QGraphicsScene *scene, const QPen *pen );
 };
 
 #endif // CONTROLSYMBOL_H
