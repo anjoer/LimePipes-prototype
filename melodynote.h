@@ -19,7 +19,6 @@ public:
     void paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setLength(Length length);
     QSizePolicy sizePolicy() const;
-    QRectF contentsRect() const;
 
     //Redefined from Symbol
     bool hasPitch() const

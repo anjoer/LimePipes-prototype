@@ -13,22 +13,22 @@ Pitch::~Pitch()
     delete m_description;
 }
 
-qreal Pitch::getY() const
+qreal Pitch::y() const
 {
     return m_yposition;
 }
 
-const QString Pitch::getName() const
+const QString Pitch::name() const
 {
     return *m_name;
 }
 
-const QString *Pitch::getDescription() const
+const QString Pitch::description() const
 {
-    return m_description;
+    return *m_description;
 }
 
-qreal Pitch::getLineHeight() const
+qreal Pitch::lineHeight() const
 {
     return m_lineHeight;
 }

@@ -12,10 +12,10 @@ class Pitch
 public:
     Pitch( const char *name, qreal ypos, qreal lineHeight, QString *desc = 0 );
     ~Pitch();
-    qreal getY() const;
-    const QString getName() const;
-    const QString *getDescription() const;
-    qreal getLineHeight() const;
+    qreal y() const;
+    const QString name() const;
+    const QString description() const;
+    qreal lineHeight() const;
     const Pitch *nextHigher() const;
     const Pitch *nextLower() const;
     void setNextHigher( const Pitch *pitch );

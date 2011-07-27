@@ -12,10 +12,10 @@ MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPe
 {
     m_pitchList = pitchList;
 
-    m_rect = QRectF( 0, 0, 4.5*4*m_pitchList->lineHeight(), 4*m_pitchList->lineHeight() ); //Erste Zahl bei Drittem Wert gibt Verhältnis von Breite zur Höhe an
-    setMinimumSize(360, m_rect.height());
-    setPreferredSize(360, m_rect.height());
-    setMaximumSize( 800, m_rect.height());
+    qreal barHeight = 4*m_pitchList->lineHeight();
+    setMinimumSize(360, barHeight);
+    setMaximumSize(360, barHeight);
+    m_rect = geometry();
 
     if( pen == 0)
     {
@@ -34,13 +34,12 @@ MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPe
 
 void MusicBar::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
-    syncGeometryAndRect();
     QPen pen;
 
 #ifdef QT_DEBUG
     painter->setBrush( Qt::transparent );
 
-    /*
+/*
     //bounding Rect
     painter->setPen( QPen(Qt::darkBlue, 1.0) );
     painter->drawRect( boundingRect() );
@@ -76,10 +75,13 @@ void MusicBar::setPen(const QPen *pen)
 
 void MusicBar::append( Symbol *symbol)
 {
-    symbol->setParentItem(this);
+    /*
+    if(contentsWidth()+symbol->geometry().width() > geometry().width())
+        return;
+    */
+    symbol->setParentLayoutItem(this);
     m_layout->addItem( symbol );
     symbol->setVisible(true);
-    //update(m_rect);
 }
 
 void MusicBar::append(QList<Symbol *>symbols)
@@ -108,20 +110,25 @@ void MusicBar::prepend(QList<Symbol *>symbols)
     }
 }
 
+void MusicBar::setGeometry(const QRectF &rect)
+{
+    QGraphicsWidget::setGeometry(rect);
+    qDebug() << "New geometry: " << rect;
+    m_rect.setWidth(rect.width());
+    m_rect.setHeight(rect.height());
+}
+
+qreal MusicBar::contentsWidth() const
+{
+    qreal contentWidth = 0.0;
+    for( int i = 0; i<m_layout->count(); i++ ){
+        contentWidth += m_layout->itemAt(i)->geometry().width();
+    }
+    return contentWidth;
+}
+/*
 QSizePolicy MusicBar::sizePolicy() const
 {
-    return QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
-
-QRectF MusicBar::contentsRect() const
-{
-    QRectF t_rect = QRectF(m_rect);
-    t_rect.moveTo(mapFromParent(0.0, 0.0));
-    return t_rect;
-}
-
-void MusicBar::syncGeometryAndRect()
-{
-    m_rect.setWidth( geometry().width() );
-}
-
+*/

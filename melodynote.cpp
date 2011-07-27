@@ -20,20 +20,20 @@
 MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch)
     :MelodySymbol(scene, pen)
 {
-    m_rect = QRectF(0.0, 0.0, 1.25*pitch->getLineHeight(), pitch->getLineHeight());
+    m_rect = QRectF(0.0, 0.0, 1.25*pitch->lineHeight(), pitch->lineHeight());
     m_pitch = pitch;
     setRectForPitch();
     setSizeHintsForPitch();
 
-    qreal t_lineHeight = m_pitch->getLineHeight();
-    qreal t_ypos = m_pitch->getY();
+    qreal t_lineHeight = m_pitch->lineHeight();
+    qreal t_ypos = m_pitch->y();
 
     setFlags( QGraphicsItem::ItemIsFocusable |
               QGraphicsItem::ItemIsSelectable );
 
 
     //Werte der Connections
-    m_leftConnection = mapToScene( QPointF(0.0 - 0.04*m_pitch->getLineHeight(), m_pitch->getY() + 0.25 * m_pitch->getLineHeight()) );
+    m_leftConnection = mapToScene( QPointF(0.0 - 0.04*m_pitch->lineHeight(), m_pitch->y() + 0.25 * m_pitch->lineHeight()) );
     m_rightConnection = mapToScene( QPointF(m_rect.width() + 0.05*t_lineHeight, t_ypos - 0.25 * t_lineHeight) );
 
     scene->addItem(this);
@@ -41,7 +41,7 @@ MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitc
 
 bool MelodyNote::hasLineThroughHead(const Pitch *pitch) const
 {
-    if(pitch->getName() == QString("High A")){
+    if(pitch->name() == QString("High A")){
         return true;
     }
     return false;
@@ -56,8 +56,8 @@ void MelodyNote::setPitch(const Pitch *pitch)
 
 void MelodyNote::setRectForPitch()
 {
-    qreal t_lineHeight = m_pitch->getLineHeight();
-    qreal t_ypos = m_pitch->getY();
+    qreal t_lineHeight = m_pitch->lineHeight();
+    qreal t_ypos = m_pitch->y();
     //Set Pitch and update bounding Rect
     //m_rect = QRectF(m_rect.left(), t_ypos - t_lineHeight/2 , 1.25*t_lineHeight, t_lineHeight ); //Breite des Notenkopfes = offset mal Zeilenhöhe
     m_rect = QRectF(m_rect.left(),
@@ -72,7 +72,7 @@ void MelodyNote::setSizeHintsForPitch()
     qreal height = m_rect.height();
     if(hasLineThroughHead(m_pitch))
     {
-        width += 0.4*m_pitch->getLineHeight();
+        width += 0.4*m_pitch->lineHeight();
     }
     setMinimumSize(width*1.15, height); // jeweils 0.1 mehr, da noten etwas größer sind durch die scherung
     setPreferredSize(width*1.15, height);
@@ -81,7 +81,7 @@ void MelodyNote::setSizeHintsForPitch()
 
 void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    qDebug() << "MelodyNote.pitch: " << m_pitch->getName();
+   // qDebug() << "MelodyNote.pitch: " << m_pitch->name();
     setRectForPitch();
 #ifdef QT_DEBUG
     /*
@@ -107,7 +107,7 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setBrush( Qt::SolidPattern );
 
     
-    QRectF head = QRectF(0.0, 0.0, m_rect.width(), m_pitch->getLineHeight());
+    QRectF head = QRectF(0.0, 0.0, m_rect.width(), m_pitch->lineHeight());
     painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-wert + offset, damit Notenkopf nicht links über y-Achse steht
                        m_rect.center().y() + 0.5); //y-Wert + offset, damit Notenkopf genau zwischen Linien steht
 
@@ -158,14 +158,6 @@ QPainterPath MelodyNote::shape() const
     QPainterPath path;
     path.addRect(m_rect);
     return path;
-    /*
-    QPainterPath path;
-    QRectF head = QRectF(0, 0, 30.0, 11.0);
-    head.moveCenter( QPointF(0.0, 0.0) );
-    path.addRoundedRect( 0, -16.0, 40.0, 16.0, 10.0, 10.0 );
-    path.addRect( 34.0, -50.0, 3.5, 40 );
-    return path;
-    */
 }
 
 void MelodyNote::mousePressEvent( QGraphicsSceneMouseEvent *event )
@@ -184,7 +176,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
     qreal yPos = event->pos().y();
     qreal dist = m_dragStartY - yPos;
-    qreal nextPitchDist = m_pitch->getLineHeight() / 2;
+    qreal nextPitchDist = m_pitch->lineHeight() / 2;
 
     if( dist > 0 ) //up
     {
@@ -210,9 +202,4 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 QSizePolicy MelodyNote::sizePolicy() const
 {
     return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-}
-
-QRectF MelodyNote::contentsRect() const
-{
-    return m_rect;
 }

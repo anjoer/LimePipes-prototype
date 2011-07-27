@@ -29,8 +29,6 @@ protected:
     QGraphicsScene *m_scene;
     const Pitch *m_pitch;
     const QPen *m_pen;
-
-
 };
 
 #endif // SYMBOL_H

@@ -24,8 +24,10 @@ public:
     void append( QList<Symbol *>symbols);
     void prepend( Symbol *symbol );
     void prepend( QList<Symbol *>symbols );
-    QSizePolicy sizePolicy() const;
-    QRectF contentsRect() const;
+    void setGeometry(const QRectF &rect);
+    qreal contentsWidth() const;
+    //QRectF contentsRect() const;
+    //QSizePolicy sizePolicy() const;
 
 private:
     const PitchList *m_pitchList;
@@ -33,10 +35,6 @@ private:
     QRectF m_rect; //Bounding rectangle
     const QPen *m_pen;
     QGraphicsLinearLayout *m_layout;
-
-
-    void syncGeometryAndRect();
-
 };
 
 #endif // MUSICBAR_H
