@@ -18,9 +18,9 @@ qreal Pitch::getY() const
     return m_yposition;
 }
 
-const QString *Pitch::getName() const
+const QString Pitch::getName() const
 {
-    return m_name;
+    return *m_name;
 }
 
 const QString *Pitch::getDescription() const

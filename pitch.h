@@ -13,7 +13,7 @@ public:
     Pitch( const char *name, qreal ypos, qreal lineHeight, QString *desc = 0 );
     ~Pitch();
     qreal getY() const;
-    const QString *getName() const;
+    const QString getName() const;
     const QString *getDescription() const;
     qreal getLineHeight() const;
     const Pitch *nextHigher() const;

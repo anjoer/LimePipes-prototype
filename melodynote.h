@@ -32,7 +32,7 @@ private:
     QPointF m_leftConnection;
     QPointF m_rightConnection;
     qreal m_dragStartY;
-    bool lineThroughHead() const;
+    bool hasLineThroughHead(const Pitch *pitch ) const;
     void setRectForPitch();
     void setSizeHintsForPitch();
 
