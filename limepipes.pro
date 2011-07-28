@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     pitch.cpp \
     ghbtune.cpp \
     pitchlist.cpp \
-    ghbpitchlist.cpp
+    ghbpitchlist.cpp \
+    notelength.cpp
 HEADERS += mainwindow.h \
     pipetune.h \
     musicbar.h \
@@ -28,6 +29,7 @@ HEADERS += mainwindow.h \
     pitch.h \
     ghbtune.h \
     pitchlist.h \
-    ghbpitchlist.h
+    ghbpitchlist.h \
+    notelength.h
 FORMS += mainwindow.ui
 OTHER_FILES += README.txt

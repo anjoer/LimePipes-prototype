@@ -17,11 +17,12 @@
   *
   *********************************************************************************/
 
-MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch)
+MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch, const NoteLength::Length length)
     :MelodySymbol(scene, pen)
 {
     m_rect = QRectF(0.0, 0.0, 1.25*pitch->lineHeight(), pitch->lineHeight());
     m_pitch = pitch;
+    m_length = new NoteLength(length);
     setRectForPitch();
     setSizeHintsForPitch();
 
@@ -81,7 +82,6 @@ void MelodyNote::setSizeHintsForPitch()
 
 void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-   // qDebug() << "MelodyNote.pitch: " << m_pitch->name();
     setRectForPitch();
 #ifdef QT_DEBUG
     /*
@@ -132,12 +132,9 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     }
 }
 
-void MelodyNote::setLength(Length length)
+void MelodyNote::setLength(NoteLength *length)
 {
-    if( length != Symbol::NoLength )
-    {
         m_length = length;
-    }
 }
 
 QRectF MelodyNote::boundingRect() const
@@ -163,6 +160,8 @@ QPainterPath MelodyNote::shape() const
 void MelodyNote::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
     m_dragStartY = event->pos().y();
+    m_dragStartX = event->pos().x();
+    qDebug() << "DragStart länge: " << m_length->length();
     //qDebug() << "Start dragging Note. Pitch: " << m_pitch->getName();
     QGraphicsItem::mousePressEvent( event );
 }
@@ -175,20 +174,25 @@ void MelodyNote::mouseReleaseEvent( QGraphicsSceneMouseEvent *event )
 void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 {
     qreal yPos = event->pos().y();
-    qreal dist = m_dragStartY - yPos;
+    qreal ydist = m_dragStartY - yPos;
     qreal nextPitchDist = m_pitch->lineHeight() / 2;
 
-    if( dist > 0 ) //up
+    qreal xPos = event->pos().x();
+    qreal xdist = m_dragStartX - xPos;
+    qreal nextLengthDist = m_pitch->lineHeight(); //Verhältnis gleich zu Bewegung um Pitch zu ändern
+
+    //up and down -- Pitch
+    if( ydist > 0 ) //up
     {
-        if( dist > (nextPitchDist/2) ){
+        if( ydist > (nextPitchDist/2) ){
             if(m_pitch->nextHigher() != 0){
                 m_dragStartY -= nextPitchDist;
                 prepareGeometryChange();
                 setPitch( m_pitch->nextHigher() );
             }
         }
-    } else if( dist < 0 ) { //down
-        if( -dist > (nextPitchDist/2) ){
+    } else if( ydist < 0 ) { //down
+        if( -ydist > (nextPitchDist/2) ){
             if(m_pitch->nextLower() != 0){
                 m_dragStartY += nextPitchDist;
                 prepareGeometryChange();
@@ -196,6 +200,29 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
             }
         }
     }
+
+    //left and right -- Length
+    if( xdist > 0 ) //left
+    {
+        //qDebug() << "links, start länge: " << m_length->length();
+        if( xdist > (nextLengthDist) ){
+            if( m_length->length() != NoteLength::Thirtysecond ){
+                m_dragStartX -= nextLengthDist;
+            }
+            (*m_length)--;
+            qDebug() << "neue länge: " << m_length->length();
+        }
+    } else if( xdist < 0 ) { //right
+        //qDebug() << "rechts, start länge: " << m_length->length();
+        if( -xdist > (nextLengthDist) ){
+            if( m_length->length() != NoteLength::Whole ){
+                m_dragStartX += nextLengthDist;
+            }
+            (*m_length)++;
+            qDebug() << "neue länge: " << m_length->length();
+        }
+    }
+
     QGraphicsItem::mouseMoveEvent( event );
 }
 

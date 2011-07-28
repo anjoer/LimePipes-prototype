@@ -39,12 +39,12 @@ GHBTune::GHBTune( QGraphicsScene *scene)
     setLayout(m_layout);
 
     //Ein paar Symbole in die MusicBar
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::LowG)));
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::LowA)));
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::B)));
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::C)));
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::D)));
-    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::E)));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::LowG), NoteLength::Eighth));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::LowA), NoteLength::Half));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::B), NoteLength::Quarter));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::C), NoteLength::Whole));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::D), NoteLength::Sixteenth));
+    dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::E), NoteLength::Thirtysecond));
     dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::F)));
     dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::HighG)));
     dynamic_cast<MusicBar*>(m_layout->itemAt(1))->append( new MelodyNote(scene, m_pen, m_pitchList->getPitch(GHBPitchList::HighA)));

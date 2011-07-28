@@ -1,14 +1,21 @@
 #include "symbol.h"
 #include "pitch.h"
+#include "notelength.h"
 
-Symbol::Symbol( QGraphicsScene *scene, const QPen *pen )
+Symbol::Symbol( QGraphicsScene *scene, const QPen *pen, NoteLength *length )
     :QGraphicsWidget(), m_pitch(0), m_pen(pen)
 {
     setVisible(false);
     m_scene = scene;
+    m_length = length;
 }
 
 bool Symbol::hasPitch() const
+{
+    return false;
+}
+
+bool Symbol::hasLength() const
 {
     return false;
 }
@@ -37,11 +44,7 @@ void Symbol::setPrevSymbol(const Symbol *symbol)
     m_prevSymbol = symbol;
 }
 
-void Symbol::setLength(Length length)
+void Symbol::setLength( NoteLength *length)
 {
-    if( m_length != NoLength )
-    {
         m_length = length;
-    }
-
 }
