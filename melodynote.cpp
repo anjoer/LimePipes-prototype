@@ -105,9 +105,38 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     //Notenkopf
     painter->setPen( Qt::NoPen );
     painter->setBrush( Qt::SolidPattern );
-
+    painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-wert + offset, damit Notenkopf nicht links über y-Achse steht
+                   m_rect.center().y() + 0.5);
     
-    QRectF head = QRectF(0.0, 0.0, m_rect.width(), m_pitch->lineHeight());
+    QRectF headrect = QRectF(0.0, 0.0, m_rect.width(), m_pitch->lineHeight());
+    qreal xShiftForLine = 0.0;
+    if( hasLineThroughHead(m_pitch) ){ //Linie durch Notenkopf => Kopf weiter rechts
+        xShiftForLine = 0.2*m_rect.width();
+    }
+    headrect.moveCenter( QPoint( xShiftForLine, 0.0 ));
+
+    QPainterPath noteHead;
+    noteHead.addEllipse(headrect);
+    if(m_length->length() == NoteLength::Whole){
+        qreal lineHeight = m_pitch->lineHeight();
+        QPainterPath holeInHead;
+        holeInHead.addEllipse(headrect.adjusted(lineHeight*0.25, lineHeight*0.3, -lineHeight*0.25, -lineHeight*0.3));
+        noteHead -= holeInHead;
+    }
+
+    painter->save();
+    painter->rotate( -4.0 );
+    painter->shear( -0.6, -0.0 );
+    painter->drawPath(noteHead);
+    painter->restore();
+
+    if( hasLineThroughHead(m_pitch) ) //High A => draw line through notehead
+    {
+        painter->setRenderHint( QPainter::Antialiasing, false );
+        painter->setPen(QPen(Qt::black, 2.0));
+        painter->drawLine(-m_rect.width()/2, 0.0, m_rect.width()/2+0.4*m_rect.width(), 0.0 );
+    }
+    /*
     painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-wert + offset, damit Notenkopf nicht links über y-Achse steht
                        m_rect.center().y() + 0.5); //y-Wert + offset, damit Notenkopf genau zwischen Linien steht
 
@@ -124,12 +153,7 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawEllipse( head );
 
     painter->restore();
-    if( hasLineThroughHead(m_pitch) ) //High A => draw line through notehead
-    {
-        painter->setRenderHint( QPainter::Antialiasing, false );
-        painter->setPen(QPen(Qt::black, 2.0));
-        painter->drawLine(-m_rect.width()/2, 0.0, m_rect.width()/2+0.4*m_rect.width(), 0.0 );
-    }
+    */
 }
 
 void MelodyNote::setLength(NoteLength *length)
@@ -204,22 +228,20 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
     //left and right -- Length
     if( xdist > 0 ) //left
     {
-        //qDebug() << "links, start länge: " << m_length->length();
         if( xdist > (nextLengthDist) ){
             if( m_length->length() != NoteLength::Thirtysecond ){
                 m_dragStartX -= nextLengthDist;
             }
             (*m_length)--;
-            qDebug() << "neue länge: " << m_length->length();
+            update();
         }
     } else if( xdist < 0 ) { //right
-        //qDebug() << "rechts, start länge: " << m_length->length();
         if( -xdist > (nextLengthDist) ){
             if( m_length->length() != NoteLength::Whole ){
                 m_dragStartX += nextLengthDist;
             }
             (*m_length)++;
-            qDebug() << "neue länge: " << m_length->length();
+            update();
         }
     }
 
