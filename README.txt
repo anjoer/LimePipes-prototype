@@ -1,7 +1,4 @@
-13.7.
-- Klassen angepasst für PitchList. GHBPitchList erstellt
-
 Nächster Schritt:
-- Melodie-Noten zeichnen sich nach dem Pitch.
+- den Slot aus MusicBar raus und in StemDrawer wie in uml
 
 

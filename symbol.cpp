@@ -33,6 +33,17 @@ const Pitch *Symbol::pitch() const
     return m_pitch;
 }
 
+const NoteLength *Symbol::length() const
+{
+    if( this->hasLength() )
+    {
+        return m_length;
+    } else
+    {
+        return 0;
+    }
+}
+
 void Symbol::setNextSymbol( const Symbol *symbol )
 {
     m_nextSymbol = symbol;
@@ -46,5 +57,8 @@ void Symbol::setPrevSymbol(const Symbol *symbol)
 
 void Symbol::setLength( NoteLength *length)
 {
+    if( this->hasLength() )
+    {
         m_length = length;
+    }
 }

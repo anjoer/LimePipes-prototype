@@ -16,7 +16,9 @@ SOURCES += main.cpp \
     ghbtune.cpp \
     pitchlist.cpp \
     ghbpitchlist.cpp \
-    notelength.cpp
+    notelength.cpp \
+    stemdrawer.cpp \
+    standardstemdrawer.cpp
 HEADERS += mainwindow.h \
     pipetune.h \
     musicbar.h \
@@ -30,6 +32,8 @@ HEADERS += mainwindow.h \
     ghbtune.h \
     pitchlist.h \
     ghbpitchlist.h \
-    notelength.h
+    notelength.h \
+    stemdrawer.h \
+    standardstemdrawer.h
 FORMS += mainwindow.ui
 OTHER_FILES += README.txt

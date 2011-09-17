@@ -19,6 +19,7 @@ public:
     virtual bool hasLength() const;
     virtual void setPitch( const Pitch* pitch );
     const Pitch *pitch() const;
+    const NoteLength *length() const;
 
 private:
     const Symbol *m_nextSymbol;

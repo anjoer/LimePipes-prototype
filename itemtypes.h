@@ -5,5 +5,7 @@
 
 const int MelodyNoteType = QGraphicsItem::UserType + 1;
 const int MusicBarType = QGraphicsItem::UserType + 2;
+const int StemDrawerType = QGraphicsItem::UserType + 3;
+const int StandardStemDrawerType = QGraphicsItem::UserType + 4;
 
 #endif // ITEMTYPES_H

@@ -28,7 +28,6 @@ void NoteLength::setLength(Length length)
 NoteLength NoteLength::operator++(int)
 {
     Length oldLength = m_length;
-    qDebug() << "oldLength: " << m_length;
     int idx = m_lengthVector.indexOf(m_length);
     if(idx != -1){  //Länge vorhanden
         if(idx != m_count-1){ //Weitere Längen vorhanden

@@ -3,14 +3,18 @@
 #include <QDebug>
 
 #include "pitchlist.h"
+#include "standardstemdrawer.h"
 #include "symbol.h"
 #include "pitch.h"
+#include "melodynote.h"
 
 
 MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPen *pen)
     : QGraphicsWidget()
 {
     m_pitchList = pitchList;
+    m_stemDrawer = new StandardStemDrawer(scene, &m_symbols, pen);
+    m_stemDrawer->setParentItem(this);
 
     qreal barHeight = 4*m_pitchList->lineHeight();
     setMinimumSize(360, barHeight);
@@ -25,8 +29,8 @@ MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPe
     }
 
     m_layout = new QGraphicsLinearLayout;
-    m_layout->setSpacing(0.0);
-    m_layout->setContentsMargins(0.0, 0.0, 0.0, 0.0 );
+    m_layout->setSpacing(3.0);
+    m_layout->setContentsMargins(3.0, 0.0, 0.0, 0.0 );
     setLayout(m_layout);
 
     scene->addItem(this);
@@ -35,6 +39,7 @@ MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPe
 void MusicBar::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
     QPen pen;
+    qDebug() << "MusicBar.paint";
 
 #ifdef QT_DEBUG
     painter->setBrush( Qt::transparent );
@@ -79,9 +84,19 @@ void MusicBar::append( Symbol *symbol)
     if(contentsWidth()+symbol->geometry().width() > geometry().width())
         return;
     */
-    symbol->setParentLayoutItem(this);
-    m_layout->addItem( symbol );
     symbol->setVisible(true);
+    symbol->setParentLayoutItem(this);
+    m_symbols.append( symbol );
+    m_layout->addItem( symbol );
+    if(symbol->type() == MelodyNoteType)
+    {
+        MelodyNote *note = qgraphicsitem_cast<MelodyNote *>(symbol);
+        /*connect(note, SIGNAL(pitchHasChanged()),
+                m_stemDrawer, SLOT(updateStems()));
+        connect(note, SIGNAL(lengthHasChanged()),
+                m_stemDrawer, SLOT(updateStems()));*/
+    }
+
 }
 
 void MusicBar::append(QList<Symbol *>symbols)
@@ -91,6 +106,7 @@ void MusicBar::append(QList<Symbol *>symbols)
     {
         (*i)->setParentItem(this);
         m_layout->addItem(*i);
+        parentItem()->update();
     }
 }
 
@@ -113,7 +129,7 @@ void MusicBar::prepend(QList<Symbol *>symbols)
 void MusicBar::setGeometry(const QRectF &rect)
 {
     QGraphicsWidget::setGeometry(rect);
-    qDebug() << "New geometry: " << rect;
+    qDebug() << "MusicBar::New geometry: " << rect;
     m_rect.setWidth(rect.width());
     m_rect.setHeight(rect.height());
 }
