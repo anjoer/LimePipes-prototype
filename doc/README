@@ -1,0 +1,3 @@
+created Qt-tagfile with doxytag -t qt.tag /usr/share/doc/qt4-doc-html/html/ 
+that doxygen can create a full class hierarchy with Qt classes.
+

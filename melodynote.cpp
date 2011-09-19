@@ -58,7 +58,6 @@ void MelodyNote::setRectForPitch()
     qreal t_lineHeight = m_pitch->lineHeight();
     qreal t_ypos = m_pitch->y();
     //Set Pitch and update bounding Rect
-    //m_rect = QRectF(m_rect.left(), t_ypos - t_lineHeight/2 , 1.25*t_lineHeight, t_lineHeight ); //Breite des Notenkopfes = offset mal Zeilenhöhe
     m_rect = QRectF(m_rect.left(),
                     mapFromParent(0.0,0.0).y()+ t_ypos - t_lineHeight/2,
                     1.25*t_lineHeight,
@@ -81,17 +80,12 @@ void MelodyNote::setSizeHintsForPitch()
 void MelodyNote::setConnectionPoints()
 {
     QRectF t_rect = mapFromParent(geometry()).boundingRect();
-    //qDebug() << "MelodyNote. geometry in setConnections(): " << geometry();
-    //qDebug() << "MelodyNote. t_rect in setConnections(): " << t_rect;
-    //Werte der Connections
-    qreal left_offset = 0.0; //Linie durch kopf
-    if(hasLineThroughHead(m_pitch)){  //Linie durch kopf => weiter rechts
+    //Values of the connections
+    qreal left_offset = 0.0; //Line through head
+    if(hasLineThroughHead(m_pitch)){  //Line through head => notehead a bit more to the right
         left_offset += 0.2*m_rect.width();
     }
-    //qDebug() << "MelodyNote.left_offset - t_rect.left(): " << left_offset << " - " << t_rect.left();
-    //qDebug() << "MelodyNote.Connection before: " << m_leftConnection;
-    m_leftConnection = mapToScene( QPointF(left_offset + t_rect.left(), m_pitch->y() + 0.25 * m_pitch->lineHeight()) );
-    //qDebug() << "MelodyNote.Connection after: " << m_leftConnection;
+    m_leftConnection = mapToParent( QPointF(left_offset + t_rect.left(), m_pitch->y() + 0.25 * m_pitch->lineHeight()) );
 }
 
 void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -122,15 +116,15 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     //ende koordinatensystem
 */
 #endif
-    //Notenkopf
+    //Notehead
     painter->setPen( Qt::NoPen );
     painter->setBrush( Qt::SolidPattern );
-    painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-wert + offset, damit Notenkopf nicht links über y-Achse steht
+    painter->translate(m_rect.left()+m_rect.width()/2 + 1.0, //y-value + offset, so that notehad don't overlaps the y-axis
                    m_rect.center().y() + 0.5);
     
     QRectF headrect = QRectF(0.0, 0.0, m_rect.width(), m_pitch->lineHeight());
     qreal xShiftForLine = 0.0;
-    if( hasLineThroughHead(m_pitch) ){ //Linie durch Notenkopf => Kopf weiter rechts
+    if( hasLineThroughHead(m_pitch) ){ //Line through head => notehead a bit more to the right
         xShiftForLine = 0.2*m_rect.width();
     }
     headrect.moveCenter( QPoint( xShiftForLine, 0.0 ));
@@ -173,8 +167,8 @@ QRectF MelodyNote::boundingRect() const
     if( hasLineThroughHead(m_pitch) ) {
         right += 0.4*m_rect.width();
     }
-    return m_rect.adjusted( -hpw, -hpw, right, hpw ); //Note wird ohne Pen gezeichnet,
-                                                       //aber da die Linie der Notenzeile nach oben und unten platz hat, bounding rect vergrößern
+    return m_rect.adjusted( -hpw, -hpw, right, hpw ); //Notehead is drawn without pen,
+                                                      //but notehead has space on the topside and bottomside because of the barlines => increase bounding rect
 }
 
 QPainterPath MelodyNote::shape() const
@@ -206,7 +200,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
 
     qreal xPos = event->pos().x();
     qreal xdist = m_dragStartX - xPos;
-    qreal nextLengthDist = m_pitch->lineHeight(); //Verhältnis gleich zu Bewegung um Pitch zu ändern
+    qreal nextLengthDist = m_pitch->lineHeight(); //ratio for changing pitch is the same for changing notelength
 
     //up and down -- Pitch
     if( ydist > 0 ) //up
@@ -279,11 +273,9 @@ QPointF MelodyNote::rightConnection() const
 void MelodyNote::setGeometry(const QRectF &rect)
 {
     QGraphicsWidget::setGeometry(rect);
-    qDebug() << "MelodyNote.setGeometry-geometry: " << geometry();
     QPointF t_leftConnection = m_leftConnection;
     setConnectionPoints();
-    qDebug() << "MelodyNote.setGeometry-leftConnection:" << m_leftConnection;
     if(t_leftConnection != m_leftConnection){
-        emit pitchHasChanged(); //Signal, dass sich die Position verändert hat
+        emit pitchHasChanged();
     }
 }

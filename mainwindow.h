@@ -1,3 +1,8 @@
+/*! /mainpage This is the documentation for LimePipes
+  * more text
+  *
+  *
+*/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

@@ -1,3 +1,7 @@
+/*! @mainpage The Mainpage for the LimePipes-documentation.
+ *
+ * <p>Much text ...</p>
+ */
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 

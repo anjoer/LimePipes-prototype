@@ -14,11 +14,11 @@ StandardStemDrawer::StandardStemDrawer(QGraphicsScene *scene, const QList<Symbol
 
 void StandardStemDrawer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    qDebug() << "Stemdrawer.paint";
+    //qDebug() << "Stemdrawer.paint";
     if(m_rect.isEmpty()){
         m_rect = QRectF(parentItem()->boundingRect().adjusted(0.0, -20.0, 0.0, 50.0));
     }
-
+/*
     //bounding Rect
     painter->setPen( QPen(Qt::darkBlue, 1.0) );
     painter->drawRect( boundingRect() );
@@ -26,7 +26,7 @@ void StandardStemDrawer::paint(QPainter *painter, const QStyleOptionGraphicsItem
     //Koordinatensystem
     painter->drawLine(0, -20, 0, 20);
     painter->drawLine(-20, 0, 20, 0);
-
+*/
     QList<Symbol *>::const_iterator i;
     for( i = m_symbolList->begin(); i<m_symbolList->end(); i++ )
     {
@@ -48,13 +48,13 @@ QRectF StandardStemDrawer::boundingRect() const
 void StandardStemDrawer::drawStem(QPainter *painter, const QPointF &point, const NoteLength *length)
 {
    // qDebug() << "StandardStemDrawer::drawStem";
-    //Muss der Klasse noch irgendwie übergeben werden
+    //ToDo: At this point, lineHeight must be assigned here, hardcoded -> change...
     qreal lineHeight = 14.0;
 
     painter->setPen( QPen(Qt::black, 1.0));
     QPointF t_pointTop = point;
     t_pointTop += QPoint(m_pen->widthF(), 0.0);
-    //t_pointTop = mapFromScene(t_pointTop);
+    t_pointTop = mapFromParent(t_pointTop);
     QPointF t_pointBottom = QPoint(t_pointTop.x(), t_pointTop.y()+lineHeight*3.3);
 
     switch(length->length()){ //
@@ -80,12 +80,12 @@ void StandardStemDrawer::drawStem(QPainter *painter, const QPointF &point, const
         painter->drawLine(t_pointBottom + QPointF(0.0, -20.0), t_pointBottom + QPointF(20.0, -35.0));
         break;
     default:
-        qDebug() << "StandardStemDrawer::drawStem - Laenge nicht behandelt";
+        qDebug() << "StandardStemDrawer::drawStem - Length not covered";
     }
 }
 
 void StandardStemDrawer::updateStems()
 {
-    qDebug() << "StemDrawer.updateStems: ";
+    //qDebug() << "StemDrawer.updateStems: ";
     update(m_rect);
 }

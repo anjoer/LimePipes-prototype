@@ -38,21 +38,21 @@ MusicBar::MusicBar( QGraphicsScene *scene, const PitchList *pitchList, const QPe
 
 void MusicBar::paint( QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget )
 {
+    //qDebug() << "MusicBar.paint";
     QPen pen;
-    qDebug() << "MusicBar.paint";
 
 #ifdef QT_DEBUG
     painter->setBrush( Qt::transparent );
 
 /*
     //bounding Rect
-    painter->setPen( QPen(Qt::darkBlue, 1.0) );
+    painter->setPen( QPen(Qt::darkGreen, 1.0) );
     painter->drawRect( boundingRect() );
 
     //Koordinatensystem
     painter->drawLine(0, -20, 0, 20);
     painter->drawLine(-20, 0, 20, 0);
-    */
+*/
 #endif
 
     //Bar
@@ -80,10 +80,6 @@ void MusicBar::setPen(const QPen *pen)
 
 void MusicBar::append( Symbol *symbol)
 {
-    /*
-    if(contentsWidth()+symbol->geometry().width() > geometry().width())
-        return;
-    */
     symbol->setVisible(true);
     symbol->setParentLayoutItem(this);
     m_symbols.append( symbol );
@@ -91,10 +87,10 @@ void MusicBar::append( Symbol *symbol)
     if(symbol->type() == MelodyNoteType)
     {
         MelodyNote *note = qgraphicsitem_cast<MelodyNote *>(symbol);
-        /*connect(note, SIGNAL(pitchHasChanged()),
+        connect(note, SIGNAL(pitchHasChanged()),
                 m_stemDrawer, SLOT(updateStems()));
         connect(note, SIGNAL(lengthHasChanged()),
-                m_stemDrawer, SLOT(updateStems()));*/
+                m_stemDrawer, SLOT(updateStems()));
     }
 
 }
@@ -129,7 +125,6 @@ void MusicBar::prepend(QList<Symbol *>symbols)
 void MusicBar::setGeometry(const QRectF &rect)
 {
     QGraphicsWidget::setGeometry(rect);
-    qDebug() << "MusicBar::New geometry: " << rect;
     m_rect.setWidth(rect.width());
     m_rect.setHeight(rect.height());
 }
@@ -142,9 +137,3 @@ qreal MusicBar::contentsWidth() const
     }
     return contentWidth;
 }
-/*
-QSizePolicy MusicBar::sizePolicy() const
-{
-    return QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-}
-*/
