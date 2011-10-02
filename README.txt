@@ -1,4 +1,5 @@
-Nächster Schritt:
-- den Slot aus MusicBar raus und in StemDrawer wie in uml
-
+- Create documentation of the sourcecode -
+------------------------------------------
+cd doc
+doxygen doxy.conf
 

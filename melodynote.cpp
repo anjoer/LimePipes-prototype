@@ -1,3 +1,22 @@
+/**
+ * @file
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ *
+ * <h3>GNU General Public License version 3</h3>
+ * This program is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software Foundation;
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "melodynote.h"
 #include "melodysymbol.h"
 #include "symbol.h"
@@ -5,17 +24,6 @@
 #include <QGraphicsScene>
 #include <QtGui>
 #include <QDebug>
-
-/************************************************************************************
-  * Für die Note zählt die obere linke Ecke von ihrer Geometry als 0,0. D.h. das ParentItem (MusicBar)
-  * muss dafür sorgen, dass diese Koordinate nicht durch das Layout versetzt wurde (contentsMargins).
-  * Somit ist das Geometry-Rechteck immer in der letzten, oberen Zeile der MusicBar. Die Note kümmert sich
-  * selber darum, wie/wo sie gezeichnet wird, z.B. beim Wechsel des Pitch durch Drag mit der Maus.
-  * Somit zeichnet sich die Note auch auserhalb der Geometry
-  *
-  *
-  *
-  *********************************************************************************/
 
 MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitch, const NoteLength::Length length)
     :MelodySymbol(scene, pen)
@@ -25,9 +33,6 @@ MelodyNote::MelodyNote(QGraphicsScene *scene, const QPen *pen, const Pitch *pitc
     m_length = new NoteLength(length);
     setRectForPitch();
     setSizeHintsForPitch();
-
-    qreal t_lineHeight = m_pitch->lineHeight();
-    qreal t_ypos = m_pitch->y();
 
     setFlags( QGraphicsItem::ItemIsFocusable |
               QGraphicsItem::ItemIsSelectable );
@@ -72,7 +77,11 @@ void MelodyNote::setSizeHintsForPitch()
     {
         width += 0.4*m_pitch->lineHeight();
     }
-    setMinimumSize(width*1.15, height); // jeweils 0.1 mehr, da noten etwas größer sind durch die scherung
+
+    /*! Add 0.15 percentage more space to every sizeHint because they are
+      * taller because of the shear
+      */
+    setMinimumSize(width*1.15, height);
     setPreferredSize(width*1.15, height);
     setMaximumSize(width*1.15, height);
 }
@@ -94,18 +103,18 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 #ifdef QT_DEBUG
 /*
     //bounding Rect
-    painter->setPen( QPen(Qt::gray, 1.0) );
+    painter->setPen( QPen(Qt::blue, 1.0) );
     painter->setBrush( Qt::transparent );
     painter->drawRect( boundingRect() );
 
     //geometry Rect
     painter->setPen( QPen(Qt::darkMagenta, 1.0) );
     painter->setBrush( Qt::transparent );
-    painter->drawRect( geometry() );
+    painter->drawPolygon( mapFromParent(geometry()) );
 
     //Shape
-    //painter->setPen( QPen(Qt::green, 1.0) );
-    //painter->drawPath( shape() );
+    painter->setPen( QPen(Qt::green, 1.0) );
+    painter->drawPath( shape() );
 
 
     //koordinatensystem
@@ -116,6 +125,7 @@ void MelodyNote::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     //ende koordinatensystem
 */
 #endif
+
     //Notehead
     painter->setPen( Qt::NoPen );
     painter->setBrush( Qt::SolidPattern );
@@ -182,8 +192,8 @@ void MelodyNote::mousePressEvent( QGraphicsSceneMouseEvent *event )
 {
     m_dragStartY = event->pos().y();
     m_dragStartX = event->pos().x();
-    qDebug() << "MelodyNote - Length: " << m_length->length();
-    qDebug() << "MelodyNote - Pitch: " << m_pitch->name();
+    //qDebug() << "MelodyNote - Length: " << m_length->length();
+    //qDebug() << "MelodyNote - Pitch: " << m_pitch->name();
     QGraphicsItem::mousePressEvent( event );
 }
 
@@ -211,7 +221,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
                 prepareGeometryChange();
                 setPitch( m_pitch->nextHigher() );
                 emit pitchHasChanged();
-                qDebug() << "MelodyNote - New Pitch: " << m_pitch->name();
+                //qDebug() << "MelodyNote - New Pitch: " << m_pitch->name();
             }
         }
     } else if( ydist < 0 ) { //down
@@ -221,7 +231,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
                 prepareGeometryChange();
                 setPitch( m_pitch->nextLower() );
                 emit pitchHasChanged();
-                qDebug() << "MelodyNote - New Pitch: " << m_pitch->name();
+                //qDebug() << "MelodyNote - New Pitch: " << m_pitch->name();
             }
         }
     }
@@ -235,7 +245,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
             }
             (*m_length)--;
             emit lengthHasChanged();
-            qDebug() << "MelodyNote - New Length: " << m_length->length();
+            //qDebug() << "MelodyNote - New Length: " << m_length->length();
             update();
         }
     } else if( xdist < 0 ) { //right
@@ -245,7 +255,7 @@ void MelodyNote::mouseMoveEvent( QGraphicsSceneMouseEvent *event )
             }
             (*m_length)++;
             emit lengthHasChanged();
-            qDebug() << "MelodyNote - New Length: " << m_length->length();
+            //qDebug() << "MelodyNote - New Length: " << m_length->length();
             update();
         }
     }

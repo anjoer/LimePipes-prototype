@@ -5,7 +5,6 @@ TARGET = limepipes
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
-    pipetune.cpp \
     musicbar.cpp \
     symbol.cpp \
     controlsymbol.cpp \
@@ -20,7 +19,6 @@ SOURCES += main.cpp \
     stemdrawer.cpp \
     standardstemdrawer.cpp
 HEADERS += mainwindow.h \
-    pipetune.h \
     musicbar.h \
     symbol.h \
     controlsymbol.h \
@@ -36,4 +34,5 @@ HEADERS += mainwindow.h \
     stemdrawer.h \
     standardstemdrawer.h
 FORMS += mainwindow.ui
-OTHER_FILES += README.txt
+OTHER_FILES += README.txt \
+    LICENSE.txt

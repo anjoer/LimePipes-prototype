@@ -1,3 +1,22 @@
+/**
+ * @file
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ *
+ * <h3>GNU General Public License version 3</h3>
+ * This program is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software Foundation;
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 #include "standardstemdrawer.h"
 #include <QtGui>
 #include "symbol.h"
@@ -14,7 +33,6 @@ StandardStemDrawer::StandardStemDrawer(QGraphicsScene *scene, const QList<Symbol
 
 void StandardStemDrawer::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //qDebug() << "Stemdrawer.paint";
     if(m_rect.isEmpty()){
         m_rect = QRectF(parentItem()->boundingRect().adjusted(0.0, -20.0, 0.0, 50.0));
     }
@@ -32,7 +50,6 @@ void StandardStemDrawer::paint(QPainter *painter, const QStyleOptionGraphicsItem
     {
         if( (*i)->type() ==  MelodyNoteType ){
             MelodyNote *note = qgraphicsitem_cast<MelodyNote *>(*i);
-            //qDebug() << "StandardStemDrawer-leftconnection: " << note->leftConnection();
             drawStem( painter, note->leftConnection(), note->length() );
         }
 
@@ -47,8 +64,9 @@ QRectF StandardStemDrawer::boundingRect() const
 
 void StandardStemDrawer::drawStem(QPainter *painter, const QPointF &point, const NoteLength *length)
 {
-   // qDebug() << "StandardStemDrawer::drawStem";
-    //ToDo: At this point, lineHeight must be assigned here, hardcoded -> change...
+    /*! @todo At this point, lineHeight must be assigned here, hardcoded
+     * -> has to be reconsidered in the design.
+     */
     qreal lineHeight = 14.0;
 
     painter->setPen( QPen(Qt::black, 1.0));
@@ -57,7 +75,7 @@ void StandardStemDrawer::drawStem(QPainter *painter, const QPointF &point, const
     t_pointTop = mapFromParent(t_pointTop);
     QPointF t_pointBottom = QPoint(t_pointTop.x(), t_pointTop.y()+lineHeight*3.3);
 
-    switch(length->length()){ //
+    switch(length->length()){
     case NoteLength::Whole:
         break;
     case NoteLength::Half:
@@ -86,6 +104,5 @@ void StandardStemDrawer::drawStem(QPainter *painter, const QPointF &point, const
 
 void StandardStemDrawer::updateStems()
 {
-    //qDebug() << "StemDrawer.updateStems: ";
-    update(m_rect);
+    update(m_rect); //Updates completet bounding rect
 }
